@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF Viewer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.min.js"></script>
+    <style>
+      canvas {
+        border: 1px solid black;
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+      }
+      .navigation {
+        text-align: center;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2 style="text-align: center">Örnek sayfa</h2>
+    <canvas id="pdf-canvas"></canvas>
+    <div class="navigation">
+      <button onclick="prevPage()">Previous</button>
+      <span
+        >Page: <span id="page-num"></span> / <span id="page-count"></span
+      ></span>
+      <button onclick="nextPage()">Next</button>
+    </div>
+
+    <script>
+      let url = "animal-behavior.pdf"; // Buraya PDF dosyanın yolunu koyulcak
+
+      let pdfDoc = null,
+        pageNum = 1,
+        pageRendering = false,
+        pageNumPending = null,
+        scale = 1.5,
+        canvas = document.getElementById("pdf-canvas"),
+        ctx = canvas.getContext("2d");
+
+      function renderPage(num) {
+        pageRendering = true;
+        pdfDoc.getPage(num).then(function (page) {
+          let viewport = page.getViewport({ scale: scale });
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+
+          let renderContext = {
+            canvasContext: ctx,
+            viewport: viewport,
+          };
+          let renderTask = page.render(renderContext);
+
+          renderTask.promise.then(function () {
+            pageRendering = false;
+            document.getElementById("page-num").textContent = num;
+
+            if (pageNumPending !== null) {
+              renderPage(pageNumPending);
+              pageNumPending = null;
+            }
+          });
+        });
+
+        document.getElementById("page-count").textContent = pdfDoc.numPages;
+      }
+
+      function queueRenderPage(num) {
+        if (pageRendering) {
+          pageNumPending = num;
+        } else {
+          renderPage(num);
+        }
+      }
+
+      function prevPage() {
+        if (pageNum <= 1) {
+          return;
+        }
+        pageNum--;
+        queueRenderPage(pageNum);
+      }
+
+      function nextPage() {
+        if (pageNum >= pdfDoc.numPages) {
+          return;
+        }
+        pageNum++;
+        queueRenderPage(pageNum);
+      }
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "ArrowLeft") {
+          prevPage();
+        } else if (event.key === "ArrowRight") {
+          nextPage();
+        }
+      });
+
+      pdfjsLib.getDocument(url).promise.then(function (pdfDoc_) {
+        pdfDoc = pdfDoc_;
+        document.getElementById("page-count").textContent = pdfDoc.numPages;
+        renderPage(pageNum);
+      });
+    </script>
+  </body>
+</html>
