@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PDF Viewer</title>
+    <link rel="stylesheet" href="style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.min.js"></script>
     <style>
       canvas {
@@ -22,11 +23,11 @@
     <h2 style="text-align: center">Örnek sayfa</h2>
     <canvas id="pdf-canvas"></canvas>
     <div class="navigation">
-      <button onclick="prevPage()">Previous</button>
+      <button onclick="prevPage()">Önceki sayfa</button>
       <span
         >Page: <span id="page-num"></span> / <span id="page-count"></span
       ></span>
-      <button onclick="nextPage()">Next</button>
+      <button onclick="nextPage()">Sonraki sayfa</button>
     </div>
 
     <script>

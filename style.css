@@ -1,0 +1,82 @@
+body {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  background-color: #ffebcd;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  color: #ff4500;
+  font-size: 1.5rem;
+  text-shadow: 2px 2px 5px #ffa07a;
+}
+
+canvas {
+  border: 5px solid #ff4500;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(255, 69, 0, 0.6);
+  background: white;
+  transition: transform 0.3s ease-in-out;
+  max-width: 100%;
+  height: auto;
+}
+
+canvas:hover {
+  transform: scale(1.05);
+}
+
+.navigation {
+  margin-top: 20px;
+}
+
+button {
+  background-color: #ff4500;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1.5rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px #cd3700;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+button:hover {
+  background-color: #ffa07a;
+  box-shadow: 0 6px #ff4500;
+  transform: translateY(-3px);
+}
+
+button:active {
+  background-color: #cd3700;
+  box-shadow: 0 2px #8b2500;
+  transform: translateY(2px);
+}
+
+#pdf-canvas {
+  max-height: 80dvh;
+}
+
+span {
+  font-size: 1.8rem;
+  color: #ff4500;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  h2 {
+    font-size: 2rem;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+  }
+
+  span {
+    font-size: 1.5rem;
+  }
+}
